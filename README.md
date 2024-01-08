@@ -3,13 +3,20 @@ npm install
 npm run start
 ```
 
-API
-
 GET
 /api/world
 
 GET
 /api/hello?name=query
 
-GET
+GEt all
+/api/data
+
+GET one item
+/api/data/:id
+
+POST item
+/api/data
+
+DELETE one item
 /api/data/:id
