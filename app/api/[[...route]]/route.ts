@@ -13,4 +13,4 @@ app.get('/test', (c) => {
   return c.json({ message: 'Test!' });
 });
 
-export default handle(app);
+export const GET = handle(app);
