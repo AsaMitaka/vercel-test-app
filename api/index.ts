@@ -2,6 +2,7 @@ import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 import { z } from 'zod';
+import { data } from '../assets/db';
 
 export const config = {
   runtime: 'edge',
@@ -26,6 +27,17 @@ app.get(
     return c.json({ message: `Hello ${name}` });
   },
 );
+
+app.get('/data/:id', (c) => {
+  const id = c.req.param('id');
+  const foundedData = data.find((item) => item.id === Number(id));
+
+  if (!foundedData) {
+    c.json({ message: 'Not Found!' });
+  }
+
+  return c.json(foundedData);
+});
 
 export default handle(app);
 
