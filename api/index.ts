@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
+import { html, raw } from 'hono/html';
 
 export const config = {
   runtime: 'edge',
@@ -12,11 +13,12 @@ app.get('/hello', (c) => {
 });
 
 app.get('/test', (c) => {
-  return c.json({ message: 'Test!' });
-});
+  const countryCode = c.req.header('x-vercel-ip-country');
 
-app.get('/world', (c) => {
-  return c.json({ message: 'World!' });
+  return c.html(
+    html`<!DOCTYPE html>
+      <h1>Hello! U from ${countryCode}!</h1>`,
+  );
 });
 
 export default handle(app);
