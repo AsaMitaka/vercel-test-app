@@ -33,11 +33,47 @@ app.get('/data/:id', (c) => {
   const foundedData = data.find((item) => item.id === Number(id));
 
   if (!foundedData) {
-    c.json({ message: 'Not Found!' });
+    c.notFound();
   }
 
   return c.json(foundedData);
 });
+
+app.post(
+  '/data',
+  zValidator(
+    'json',
+    z.object({
+      name: z.string(),
+      number: z.string(),
+    }),
+  ),
+  async (c) => {
+    const userData = await c.req.json();
+    const isExist = data.find((item) => item.name === userData.name);
+
+    if (isExist) {
+      return c.json({ message: 'Exist' });
+    }
+
+    if (!userData.name || !userData.number) {
+      return c.json({
+        error: 'Name and number are required fields',
+      });
+    }
+
+    const maxId = data.length > 0 ? Math.max(...data.map((item) => item.id)) : 0;
+
+    const newData = {
+      id: maxId + 1,
+      name: userData.name,
+      number: userData.number,
+    };
+
+    data.push(newData);
+    return c.json({ message: `Posted` });
+  },
+);
 
 export default handle(app);
 
