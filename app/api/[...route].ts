@@ -1,7 +1,9 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 
-export const runtime = 'edge';
+export const config = {
+  runtime: 'edge',
+};
 
 const app = new Hono().basePath('/api');
 
@@ -13,4 +15,8 @@ app.get('/test', (c) => {
   return c.json({ message: 'Test!' });
 });
 
-export const GET = handle(app);
+app.get('/world', (c) => {
+  return c.json({ message: 'World!' });
+});
+
+export default handle(app);
