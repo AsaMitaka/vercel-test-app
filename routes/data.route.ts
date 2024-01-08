@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 const dataRoute = new Hono();
 
-dataRoute.get('/', (c) => {
+dataRoute.get('/all', (c) => {
   return c.json(data);
 });
 
