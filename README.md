@@ -3,6 +3,11 @@ npm install
 npm run start
 ```
 
+Stack
+hono.js
+zod
+zValidator
+
 GET
 /api/world
 
