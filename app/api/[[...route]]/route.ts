@@ -9,4 +9,8 @@ app.get('/hello', (c) => {
   return c.json({ message: 'Hello Hono!' });
 });
 
+app.get('/test', (c) => {
+  return c.json({ message: 'Test!' });
+});
+
 export default handle(app);
