@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
-import { html, raw } from 'hono/html';
+import { html } from 'hono/html';
 
 export const config = {
   runtime: 'edge',
@@ -13,11 +13,19 @@ app.get('/hello', (c) => {
 });
 
 app.get('/test', (c) => {
-  const countryCode = c.req.header('x-vercel-ip-country');
+  const blockedCountryCode = ['UA'];
+  const incomingCountryCode = c.req.header('x-vercel-ip-country');
+
+  if (blockedCountryCode.includes(incomingCountryCode?.toUpperCase())) {
+    return c.html(
+      html`<!DOCTYPE html>
+        <h1>Hello! U from ${incomingCountryCode}! U have blocked!</h1>`,
+    );
+  }
 
   return c.html(
     html`<!DOCTYPE html>
-      <h1>Hello! U from ${countryCode}!</h1>`,
+      <h1>Hello! U from ${incomingCountryCode}!</h1>`,
   );
 });
 
